@@ -4,11 +4,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [weather, setWeather] = useState(null);
+  const [hourlyWeather, setHourlyWeather] = useState(null);
+  const [dailyWeather, setDailyWeather] = useState(null);
+  const [currentWeather, setCurrentWeather] = useState(null);
   const [lat, setLat] = useState(null);
   const [long, setLong] = useState(null);
   const [log, setLog] = useState(null);
-  const key = "sv305jhndh1me48ticwgo0br9iwakjiinlqixule"
 
   useEffect(() => {
     // Função para obter a localização atual do usuário
@@ -32,12 +33,17 @@ export default function Home() {
     getLocation();
   }, []);
 
+  /**
+   * reference: https://open-meteo.com/en/docs
+   */
+
   useEffect(() => {
-    // Só busca se lat e long estiverem definidos
+    // As variáveis usadas podem ser conferidas nos endpoints usados
     if (lat && long) {
-      axios.get(`https://www.meteosource.com/api/v1/free/point?lat=${lat}&lon=${long}&sections=all&timezone=UTC&language=en&units=metric&key=${key}`)
+      axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,precipitation_probability,precipitation,rain,snow_depth,snowfall,weather_code,pressure_msl,surface_pressure,visibility,evapotranspiration,vapour_pressure_deficit,wind_speed_10m,wind_direction_10m,temperature_80m,soil_temperature_0cm&timezone=America%2FSao_Paulo`)
         .then(function (response) {
-          setWeather(response.data);
+          setHourlyWeather(response.data);
+          setLog(null);
         })
         .catch(function (error) {
           setLog("Erro ao buscar previsão do tempo");
@@ -45,92 +51,164 @@ export default function Home() {
     }
   }, [lat, long]);
 
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        {log && <p>{log}</p>}
+  useEffect(() => {
+    // As variáveis usadas podem ser conferidas nos endpoints usados
+    if (lat && long) {
+      axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=relative_humidity_2m_mean,relative_humidity_2m_max,relative_humidity_2m_min,visibility_min,visibility_max,visibility_mean,winddirection_10m_dominant,wind_speed_10m_mean,wind_gusts_10m_mean,wind_gusts_10m_min,weather_code,temperature_2m_min,temperature_2m_max,apparent_temperature_min,apparent_temperature_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,et0_fao_evapotranspiration,sunrise,daylight_duration,sunset,sunshine_duration,uv_index_max,uv_index_clear_sky_max,rain_sum,snowfall_sum,precipitation_sum,precipitation_hours,precipitation_probability_max&timezone=America%2FSao_Paulo`)
+        .then(function (response) {
+          setDailyWeather(response.data);
+          setLog(null);
+        })
+        .catch(function (error) {
+          setLog("Erro ao buscar previsão do tempo");
+        });
+    }
+  }, [lat, long]);
 
-        {/* {weather && (
-          <pre>{JSON.stringify(weather, null, 2)}</pre>
-        )} */}
-        
-        {
-        weather && (
-          <section className="bg-white rounded-xl shadow-lg p-8 w-full max-w-2xl space-y-6">
-            <h2 className="text-3xl font-bold text-blue-700 mb-4 flex items-center gap-2">
-              <span>🌤️</span> Previsão do Tempo
-            </h2>
-            {/* Localização */}
-            {weather.location && (
-              <div className="mb-4">
-                <h3 className="text-xl font-semibold text-gray-800 mb-1">Localização</h3>
-                <p className="text-gray-600">
-                  <strong>Cidade:</strong> {weather.location.name}<br />
-                  <strong>País:</strong> {weather.location.country}<br />
-                  <strong>Latitude:</strong> {weather.location.latitude}<br />
-                  <strong>Longitude:</strong> {weather.location.longitude}
-                </p>
-              </div>
-            )}
-            {/* Condições atuais */}
-            {weather.current && (
-              <div className="mb-4">
-                <h3 className="text-xl font-semibold text-gray-800 mb-1">Condições Atuais</h3>
-                <div className="flex items-center gap-4">
-                  <span className="text-5xl">
-                    {weather.current.icon === "clear" ? "☀️" : weather.current.icon === "cloudy" ? "☁️" : "🌦️"}
-                  </span>
-                  <div>
-                    <p className="text-2xl font-bold text-blue-600">{weather.current.temperature}°C</p>
-                    <p className="text-gray-700 capitalize">{weather.current.summary}</p>
-                    <p className="text-gray-600">
-                      <strong>Umidade:</strong> {weather.current.humidity}%<br />
-                      <strong>Vento:</strong> {weather.current.wind_speed} km/h
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* Previsão por hora */}
-            {weather.hourly && Array.isArray(weather.hourly.data) && (
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Próximas Horas</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {weather.hourly.data.slice(0, 8).map((hour, idx) => (
-                    <div key={idx} className="bg-blue-50 rounded p-2 text-center">
-                      <div className="text-lg font-bold">{hour.temperature}°C</div>
-                      <div className="text-sm">{hour.date.split("T")[1].slice(0,5)}</div>
-                      <div>{hour.icon === "clear" ? "☀️" : hour.icon === "cloudy" ? "☁️" : "🌦️"}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            {/* Previsão diária */}
-            {weather.daily && Array.isArray(weather.daily.data) && (
-              <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Próximos Dias</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  {weather.daily.data.slice(0, 5).map((day, idx) => (
-                    <div key={idx} className="bg-yellow-50 rounded p-3 text-center">
-                      <div className="font-bold">{new Date(day.day).toLocaleDateString()}</div>
-                      <div className="text-lg">{day.temperature_min}°C - {day.temperature_max}°C</div>
-                      <div>{day.icon === "clear" ? "☀️" : day.icon === "cloudy" ? "☁️" : "🌦️"}</div>
-                      <div className="text-sm text-gray-600">{day.summary}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            {/* Outros dados */}
-            <details className="mt-6">
-              <summary className="cursor-pointer text-blue-600 font-semibold">Ver todos os dados brutos</summary>
-              <pre className="bg-gray-100 rounded p-2 text-xs mt-2 overflow-x-auto">{JSON.stringify(weather, null, 2)}</pre>
-            </details>
-          </section>
-        )
-        }
+  useEffect(() => {
+    // As variáveis usadas podem ser conferidas nos endpoints usados
+    if (lat && long) {
+      axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,wind_speed_10m,wind_gusts_10m,wind_direction_10m,precipitation,rain,snowfall,weather_code,showers,cloud_cover,pressure_msl,surface_pressure&timezone=America%2FSao_Paulo`)
+        .then(function (response) {
+          setCurrentWeather(response.data);
+          setLog(null);
+        })
+        .catch(function (error) {
+          setLog("Erro ao buscar previsão do tempo");
+        });
+    }
+  }, [lat, long]);
+
+  // Ícones simples para clima
+  const weatherIcons = {
+    0: "☀️", 1: "🌤️", 2: "⛅", 3: "☁️", 45: "🌫️", 48: "🌫️", 51: "🌦️", 61: "🌧️", 71: "🌨️", 80: "🌦️", 95: "⛈️"
+  };
+
+  function WeatherCard({ title, children }) {
+    return (
+      <div className="bg-white/80 rounded-xl shadow-lg p-6 mb-6 w-full max-w-2xl">
+        <h2 className="text-xl font-bold mb-4">{title}</h2>
+        {children}
+      </div>
+    );
+  }
+
+  function CurrentWeatherDisplay({ data }) {
+    if (!data || !data.current) return null;
+    const c = data.current;
+    return (
+      <WeatherCard title="Tempo Atual">
+        <div className="flex items-center gap-4">
+          <span className="text-5xl">{weatherIcons[c.weather_code] || "🌡️"}</span>
+          <div>
+            <div className="text-3xl font-semibold">{c.temperature_2m}°C</div>
+            <div>Sensação: {c.apparent_temperature}°C</div>
+            <div>Umidade: {c.relative_humidity_2m}%</div>
+            <div>Vento: {c.wind_speed_10m} km/h</div>
+            <div>Direção do vento: {c.wind_direction_10m}°</div>
+            <div>Pressão: {c.pressure_msl} hPa</div>
+            <div>Chuva: {c.rain} mm</div>
+            <div>Nuvens: {c.cloud_cover}%</div>
+            <div>Dia: {c.is_day ? "Sim" : "Não"}</div>
+          </div>
+        </div>
+        <details className="mt-4">
+          <summary className="cursor-pointer text-blue-600">Ver todos os dados atuais</summary>
+          <pre className="bg-gray-100 p-2 rounded text-xs overflow-x-auto">{JSON.stringify(c, null, 2)}</pre>
+        </details>
+      </WeatherCard>
+    );
+  }
+
+  function HourlyWeatherDisplay({ data }) {
+    if (!data || !data.hourly) return null;
+    const h = data.hourly;
+    return (
+      <WeatherCard title="Previsão por Hora">
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-sm">
+            <thead>
+              <tr>
+                <th>Hora</th>
+                <th>Temp (°C)</th>
+                <th>Umidade (%)</th>
+                <th>Chuva (%)</th>
+                <th>Vento (km/h)</th>
+                <th>Clima</th>
+              </tr>
+            </thead>
+            <tbody>
+              {h.time.slice(0, 12).map((t, i) => (
+                <tr key={t}>
+                  <td>{new Date(t).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</td>
+                  <td>{h.temperature_2m[i]}</td>
+                  <td>{h.relative_humidity_2m[i]}</td>
+                  <td>{h.precipitation_probability[i]}</td>
+                  <td>{h.wind_speed_10m[i]}</td>
+                  <td>{weatherIcons[h.weather_code[i]] || "🌡️"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <details className="mt-4">
+          <summary className="cursor-pointer text-blue-600">Ver todos os dados horários</summary>
+          <pre className="bg-gray-100 p-2 rounded text-xs overflow-x-auto">{JSON.stringify(h, null, 2)}</pre>
+        </details>
+      </WeatherCard>
+    );
+  }
+
+  function DailyWeatherDisplay({ data }) {
+    if (!data || !data.daily) return null;
+    const d = data.daily;
+    return (
+      <WeatherCard title="Previsão Diária">
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-sm">
+            <thead>
+              <tr>
+                <th>Dia</th>
+                <th>Temp Mín (°C)</th>
+                <th>Temp Máx (°C)</th>
+                <th>Umidade (%)</th>
+                <th>Chuva (mm)</th>
+                <th>Clima</th>
+              </tr>
+            </thead>
+            <tbody>
+              {d.time.map((t, i) => (
+                <tr key={t}>
+                  <td>{new Date(t).toLocaleDateString("pt-BR")}</td>
+                  <td>{d.temperature_2m_min[i]}</td>
+                  <td>{d.temperature_2m_max[i]}</td>
+                  <td>{d.relative_humidity_2m_mean[i]}</td>
+                  <td>{d.precipitation_sum[i]}</td>
+                  <td>{weatherIcons[d.weather_code[i]] || "🌡️"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <details className="mt-4">
+          <summary className="cursor-pointer text-blue-600">Ver todos os dados diários</summary>
+          <pre className="bg-gray-100 p-2 rounded text-xs overflow-x-auto">{JSON.stringify(d, null, 2)}</pre>
+        </details>
+      </WeatherCard>
+    );
+  }
+
+  return (
+    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 bg-gradient-to-br from-blue-200 via-blue-100 to-yellow-100">
+      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start w-full max-w-3xl">
+        {log && <p className="text-red-600 font-semibold">{log}</p>}
+        <CurrentWeatherDisplay data={currentWeather} />
+        <HourlyWeatherDisplay data={hourlyWeather} />
+        <DailyWeatherDisplay data={dailyWeather} />
       </main>
+      <footer className="row-start-3 text-xs text-gray-500">
+        Powered by Open-Meteo • Forecastfy
+      </footer>
     </div>
   );
 }
