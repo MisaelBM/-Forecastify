@@ -200,15 +200,19 @@ export default function Weather() {
   }
 
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 bg-gradient-to-br from-blue-200 via-blue-100 to-yellow-100">
-      <main className="flex flex-col items-center gap-[32px] row-start-2 items-center sm:items-start w-full max-w-screen">
-        <SearchBox />
+    <div className="min-h-screen gap-16 sm:p-8 bg-[url('/img/dia-verao.gif')] bg-cover bg-center">
+      <main className="flex flex-col items-center gap-[32px] row-start-2 items-center sm:items-start w-full min-h-screen max-w-screen">
+        <div className="w-full px-8 pt-8">
+          <SearchBox className="font-(family-name:--font-love)"/>
+        </div>
+
         {log && <p className="text-red-600 font-semibold">{log}</p>}
         <CurrentWeatherDisplay data={currentWeather} />
         <HourlyWeatherDisplay data={hourlyWeather} />
         <DailyWeatherDisplay data={dailyWeather} />
       </main>
-      <footer className="row-start-3 text-xs text-gray-500">
+
+      <footer className="w-full flex justify-center items-center row-start-3 text-xs text-gray-500">
         Powered by Open-Meteo • Forecastfy
       </footer>
     </div>
