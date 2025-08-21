@@ -37,7 +37,7 @@ export default function Weather() {
         setLog("Geolocalização não é suportada pelo seu navegador");
       }
     };
-
+  
     getLocation();
   }, []);
 
@@ -54,7 +54,7 @@ export default function Weather() {
       })
       .then(function (response) {
         setCurrentLocation(response.data);
-        console.log(response.data)
+        console.log("CurrentLocation", response.data)
       })
       .catch(function (error) {
         console.log(error)
@@ -67,7 +67,7 @@ export default function Weather() {
       axios.get(`https://www.meteosource.com/api/v1/free/point?lat=${lat}&lon=${long}&sections=all&timezone=UTC&language=en&units=metric&key=sv305jhndh1me48ticwgo0br9iwakjiinlqixule`)
         .then(function (response) {
           setWeatherMeteo(response.data);
-          console.log(response.data)
+          console.log("weatherMeteo", response.data)
         })
         .catch(function (error) {
           console.log(error)
@@ -80,7 +80,7 @@ export default function Weather() {
       axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,precipitation_probability,precipitation,rain,snow_depth,snowfall,weather_code,pressure_msl,surface_pressure,visibility,evapotranspiration,vapour_pressure_deficit,wind_speed_10m,wind_direction_10m,temperature_80m,soil_temperature_0cm&timezone=America%2FSao_Paulo`)
         .then(function (response) {
           setHourlyWeather(response.data);
-          console.log(response.data)
+          console.log("HourlyWeather", response.data)
         })
         .catch(function (error) {
           console.log(error)
@@ -93,7 +93,7 @@ export default function Weather() {
       axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=relative_humidity_2m_mean,relative_humidity_2m_max,relative_humidity_2m_min,visibility_min,visibility_max,visibility_mean,winddirection_10m_dominant,wind_speed_10m_mean,wind_gusts_10m_mean,wind_gusts_10m_min,weather_code,temperature_2m_min,temperature_2m_max,apparent_temperature_min,apparent_temperature_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,et0_fao_evapotranspiration,sunrise,daylight_duration,sunset,sunshine_duration,uv_index_max,uv_index_clear_sky_max,rain_sum,snowfall_sum,precipitation_sum,precipitation_hours,precipitation_probability_max&timezone=America%2FSao_Paulo`)
         .then(function (response) {
           setDailyWeather(response.data);
-          console.log(response.data)
+          console.log("DailyWeather", response.data)
         })
         .catch(function (error) {
           console.log(error)
@@ -106,7 +106,7 @@ export default function Weather() {
       axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,wind_speed_10m,wind_gusts_10m,wind_direction_10m,precipitation,rain,snowfall,weather_code,showers,cloud_cover,pressure_msl,surface_pressure&timezone=America%2FSao_Paulo`)
         .then(function (response) {
           setCurrentWeather(response.data);
-          console.log(response.data)
+          console.log("CurrentWeather", response.data)
         })
         .catch(function (error) {
           console.log(error)
@@ -132,12 +132,17 @@ export default function Weather() {
         </div>
 
         <CurrentWeatherDisplay data={{
-          "currentWeather": currentWeather,
           "weatherMeteo": weatherMeteo,
-          "currentLocation": currentLocation
+          "currentLocation": currentLocation,
+          "currentWeather": currentWeather,
+          "dailyWeather": dailyWeather,
+        }} />
+
+        <DailyWeatherDisplay data={{
+          "whetherMeteo": weatherMeteo,
+          "dailyWeather": dailyWeather,
         }} />
         <HourlyWeatherDisplay data={hourlyWeather} />
-        <DailyWeatherDisplay data={dailyWeather} />
       </main>
 
       <footer className="w-full flex justify-center items-center row-start-3 text-xs text-gray-500">
