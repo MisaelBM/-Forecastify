@@ -28,7 +28,7 @@ export function CurrentWeatherDisplay ({ data }) {
               
               <div className="flex flex-col gap-1 items-center dap-4">
                 <span className="text-4xl font-semibold">{data.currentWeather.current.temperature_2m}°C</span>
-                <span className="text-4xl font-semibold">{data.currentWeather.current.temperature_2m * (9/5) + 32}°F</span>
+                <span className="text-4xl font-semibold">{(data.currentWeather.current.temperature_2m * (9/5) + 32).toFixed(1)}°F</span>
               </div>
             </div>
 

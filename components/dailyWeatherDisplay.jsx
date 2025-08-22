@@ -5,56 +5,46 @@ export function DailyWeatherDisplay ({ data }) {
   if (!data.dailyWeather) return null;
   if (!data.whetherMeteo) return null;
 
-  const [weekDays, setWeekDays] = useState({
-    fullNames: [
-    "Domingo",
-    "Segunda-feira",
-    "Terça-feira",
-    "Quarta-feira",
-    "Quinta-feira",
-    "Sexta-feira",
-    "Sábado"
-    ],
-    abrNames: [
-      "Dom",
-      "Seg",
-      "Ter",
-      "Qua",
-      "Qui",
-      "Sex",
-      "Sab"
+  const [weekDays] = useState({
+    shortNames: [
+      "Dom", "Seg", "Ter", "Qua","Qui", "Sex", "Sab"
     ]
   })
+
   const [time, setTime] = useState({
     weekDay: "",
-    hour: "",
-    minute: ""
   })
 
-  const getTime = () => {
-    var date = new Date;
+  useEffect(() => {
+    const date = new Date();
     setTime({
       weekDay: date.getDay(),
-      hour: date.getHours(),
-      minute: date.getMinutes()
     });
-  }
-
-  useEffect(() => {
-    getTime();
   }, [])
-  
-  return (
-    <WeatherCard title="Previsão Diária" className={`w-full min-h-[100px]`}>
-      <div className="grid grid-cols-7 grid-rows-1 gap-4">
-        <div className="w-full">
-          <div className="day">
-            <h2 className="w-full text-lg text-center">{weekDays.abrNames[time.weekDay]}</h2>
-            <div className="flex justify-center items-center w-full">
-              <img src={`/img/icons/big/${data.whetherMeteo.daily.data[time.weekDay != "" ? time.weekDay : 0].icon}.png`} alt="" className="w-16 h-16" />
+
+  // Cria um array de elementos JSX para cada dia
+  const days = data.dailyWeather.daily.time.map((_, i) => {
+    const weekDayIndex = (time.weekDay !== "" ? (time.weekDay + i) % 7 : i);
+    return (
+      <div className="w-full" key={i}>
+        <div className={`day relative flex flex-col gap-2 pb-3 ${i == 0 && "before:bg-white/15 before:w-full before:h-[3px] before:absolute before:bottom-0"}`}>
+          <h2 className="w-full text-lg text-center">{weekDays.shortNames[weekDayIndex]}</h2>
+          <div className="flex justify-center items-center gap-1 w-full">
+            <img src={`/img/icons/big/${data.whetherMeteo.daily.data[weekDayIndex].icon}.png`} alt="" className="w-16 h-16" />
+            <div className="flex flex-col gap-0.5 items-center">
+              <span className="text-xl">{data.dailyWeather.daily.temperature_2m_max[i]}°C</span>
+              <span className="text-xl">{data.dailyWeather.daily.temperature_2m_min[i]}°C</span>
             </div>
           </div>
         </div>
+      </div>
+    );
+  });
+
+  return (
+    <WeatherCard title="Previsão Diária" className={`w-full min-h-[100px]`}>
+      <div className="grid grid-cols-7 grid-rows-1 gap-4">
+        {days}
       </div>
     </WeatherCard>
   );
