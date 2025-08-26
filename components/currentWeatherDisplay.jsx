@@ -13,7 +13,7 @@ export function CurrentWeatherDisplay ({ data }) {
 
     useEffect(() => {
       var date = new Date;
-      setTime(`${date.getHours()}:${date.getMinutes()}`);
+      setTime(`${date.getHours()}:${`${date.getMinutes()}`.padStart(2, "0")}`);
     }, [time])
 
     return (
@@ -27,7 +27,7 @@ export function CurrentWeatherDisplay ({ data }) {
               <img src={`/img/icons/big/${data.weatherMeteo.current.icon_num}.png`} alt="" className="w-48 h-48" />
               
               <div className="flex flex-col gap-1 items-center dap-4">
-                <span className="text-4xl font-semibold">{data.currentWeather.current.temperature_2m}°C</span>
+                <span className="text-4xl font-semibold">{(data.currentWeather.current.temperature_2m).toFixed(1)}°C</span>
                 <span className="text-4xl font-semibold">{(data.currentWeather.current.temperature_2m * (9/5) + 32).toFixed(1)}°F</span>
               </div>
             </div>

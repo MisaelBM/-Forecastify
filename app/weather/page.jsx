@@ -6,6 +6,8 @@ import SearchBox from "../../components/searchBox";
 import { CurrentWeatherDisplay } from "../../components/currentWeatherDisplay";
 import { HourlyWeatherDisplay } from "../../components/hourlyWeatherDisplay";
 import { DailyWeatherDisplay } from "../../components/dailyWeatherDisplay";
+import { deflate } from "zlib";
+
 
 export default function Weather() {
   const [hourlyWeather, setHourlyWeather] = useState(null);
@@ -82,9 +84,9 @@ export default function Weather() {
     }
   }
 
-  const getDailyWeather = () => {
+  const getDailyWeather = async() => {
     if (lat && long) {
-      axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=relative_humidity_2m_mean,relative_humidity_2m_max,relative_humidity_2m_min,visibility_min,visibility_max,visibility_mean,winddirection_10m_dominant,wind_speed_10m_mean,wind_gusts_10m_mean,wind_gusts_10m_min,weather_code,temperature_2m_min,temperature_2m_max,apparent_temperature_min,apparent_temperature_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,et0_fao_evapotranspiration,sunrise,daylight_duration,sunset,sunshine_duration,uv_index_max,uv_index_clear_sky_max,rain_sum,snowfall_sum,precipitation_sum,precipitation_hours,precipitation_probability_max&timezone=America%2FSao_Paulo`)
+      await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=sunrise,sunset,relative_humidity_2m_mean,relative_humidity_2m_max,relative_humidity_2m_min,visibility_min,visibility_max,visibility_mean,winddirection_10m_dominant,wind_speed_10m_mean,wind_gusts_10m_mean,wind_gusts_10m_min,weather_code,temperature_2m_min,temperature_2m_max,apparent_temperature_min,apparent_temperature_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,et0_fao_evapotranspiration,sunrise,daylight_duration,sunset,sunshine_duration,uv_index_max,uv_index_clear_sky_max,rain_sum,snowfall_sum,precipitation_sum,precipitation_hours,precipitation_probability_max&timezone=America%2FSao_Paulo`)
         .then(function (response) {
           setDailyWeather(response.data);
         })
@@ -104,18 +106,40 @@ export default function Weather() {
     }
   }
 
+  const bg_wather = () => {
+    if (dailyWeather && weatherMeteo) {
+      let dateNow = new Date();
+      let gif_bg = "";
+      let weather = weatherMeteo.current.icon_num;
+      // Códigos para cada tipo de clima
+      const neve = [16, 17, 18, 19, 23, 34];
+      const chuva = [10, 11, 12, 13, 14, 15, 20, 21, 22, 32, 35];
+      const nublado = [4, 5, 6, 7, 8, 9, 28, 29, 30, 31];
+      const isDia = (new Date(dailyWeather.daily.sunset[0]).getHours() <= dateNow.getHours() && new Date(dailyWeather.daily.sunset[0]).getMinutes() <= dateNow.getMinutes()) || (new Date(dailyWeather.daily.sunrise[0]).getHours() > dateNow.getHours() && new Date(dailyWeather.daily.sunset[0]).getMinutes() >= dateNow.getMinutes());
+      if (neve.includes(weather)) {
+        gif_bg = isDia ? `min-h-screen gap-16 sm:p-8 bg-[url('/img/dia-neve.gif')] bg-cover bg-center` : `min-h-screen gap-16 sm:p-8 bg-[url('/img/noite-neve.gif')] bg-cover bg-center`;
+      } else if (chuva.includes(weather)) {
+        gif_bg = isDia ? `min-h-screen gap-16 sm:p-8 bg-[url('/img/dia-chuva.gif')] bg-cover bg-center` : `min-h-screen gap-16 sm:p-8 bg-[url('/img/noite-chuva.gif')] bg-cover bg-center`;
+      } else if (nublado.includes(weather)) {
+        gif_bg = isDia ? `min-h-screen gap-16 sm:p-8 bg-[url('/img/pouco-nublado-dia.gif')] bg-cover bg-center` : `min-h-screen gap-16 sm:p-8 bg-[url('/img/pouco-nublado-noite.gif')] bg-cover bg-center`;
+      } else {
+        gif_bg = isDia ? `min-h-screen gap-16 sm:p-8 bg-[url('/img/dia-verao.gif')] bg-cover bg-center` : `min-h-screen gap-16 sm:p-8 bg-[url('/img/noite-verao.gif')] bg-cover bg-center`;
+      }
+      return gif_bg;
+    }
+  };
+
   useEffect(() => {
-    
+    getDailyWeather();
     getCurrentLocation();
     getWeatherMeteo();
     getHourlyWeather();
-    getDailyWeather();
     getCurrentWeather();
 
   }, [lat, long]);
 
   return (
-    <div className="min-h-screen gap-16 sm:p-8 bg-[url('/img/dia-verao.gif')] bg-cover bg-center">
+    <div className={bg_wather()}>
       <main className="flex flex-col items-center gap-[32px] row-start-2 items-center sm:items-start w-full min-h-screen max-w-screen">
         <div className="w-full px-8 pt-8">
           <SearchBox className="font-(family-name:--font-love)"/>

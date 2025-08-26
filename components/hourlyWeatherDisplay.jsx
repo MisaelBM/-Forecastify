@@ -65,7 +65,7 @@ export function HourlyWeatherDisplay ({ data }) {
               <img src={`/img/icons/big/${w.current.icon_num}.png`} alt="" className="w-32 h-32" />
               
               <div className="flex flex-col items-center dap-4">
-                <span className="text-xl">{c.current.temperature_2m}°C</span>
+                <span className="text-xl">{(c.current.temperature_2m).toFixed(1)}°C</span>
                 <span className="text-xl">{(c.current.temperature_2m * (9/5) + 32).toFixed(1)}°F</span>
               </div>
 
