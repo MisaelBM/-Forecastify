@@ -50,7 +50,7 @@ export function HourlyWeatherDisplay ({ data }) {
       aparentTemp: h.apparent_temperature[hourIndex],
     });
   }
-  console.log(c)
+
   return (
     <WeatherCard className="w-full">
       <Card className="bg-white/15 border-none">
@@ -117,12 +117,6 @@ export function HourlyWeatherDisplay ({ data }) {
                   r: 6,
                 }}
               >
-                <LabelList
-                  position="top"
-                  offset={12}
-                  className="fill-foreground"
-                  fontSize={12}
-                />
               </Line>
               
               <Line
@@ -135,12 +129,6 @@ export function HourlyWeatherDisplay ({ data }) {
                   r: 6,
                 }}
               >
-                <LabelList
-                  position="top"
-                  offset={12}
-                  className="fill-foreground"
-                  fontSize={12}
-                />
               </Line>
             </LineChart>
           </ChartContainer>

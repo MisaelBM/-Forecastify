@@ -32,7 +32,13 @@ export function CurrentWeatherDisplay ({ data }) {
               </div>
             </div>
 
-            <h3 className="w-full text-lg text-center capitalize">{data.currentLocation.result[0].address_components[1].long_name} - {time}</h3>
+            <h3 className="w-full text-lg text-center capitalize">
+              {data.currentLocation.result[0].formatted_address.split(' ')[1]}
+              &nbsp;{data.currentLocation.result[0].formatted_address.split(' ')[2] != undefined && data.currentLocation.result[0].formatted_address.split(' ')[2]}
+              &nbsp;{data.currentLocation.result[0].formatted_address.split(' ')[3] != undefined && data.currentLocation.result[0].formatted_address.split(' ')[3]}
+              &nbsp;- {data.currentWeather.timezone == Intl.DateTimeFormat().resolvedOptions().timeZone ? time : `${data.currentWeather.current.time.split('T')[1].split(':')[0]}:${data.currentWeather.current.time.split('T')[1].split(':')[1]}`}
+            </h3>
+            {console.log()}
           </div>
         </WeatherCard>
 

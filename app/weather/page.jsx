@@ -6,41 +6,33 @@ import SearchBox from "../../components/searchBox";
 import { CurrentWeatherDisplay } from "../../components/currentWeatherDisplay";
 import { HourlyWeatherDisplay } from "../../components/hourlyWeatherDisplay";
 import { DailyWeatherDisplay } from "../../components/dailyWeatherDisplay";
-import { deflate } from "zlib";
+import { AirQualityDisplay } from "../../components/airQualityDisplay";
+import { OthersDisplay } from "../../components/othersDisplay";
 
 
-export default function Weather() {
+export default function Weather({ data }) {
+  const [airQuality, setAirQuality] = useState(null);
   const [hourlyWeather, setHourlyWeather] = useState(null);
   const [dailyWeather, setDailyWeather] = useState(null);
   const [currentWeather, setCurrentWeather] = useState(null);
   const [weatherMeteo, setWeatherMeteo] = useState(null);
+  const [mapWeather, setMapWeather] = useState(null);
 
   const [currentLocation, setCurrentLocation] = useState(null);
 
   const [lat, setLat] = useState(null);
   const [long, setLong] = useState(null);
   const [log, setLog] = useState(null);
+  const [timezone, setTimezone] = useState(null);
 
-  useEffect(() => {
-    // Função para obter a localização atual do usuário
-    const getLocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            setLat(position.coords.latitude);
-            setLong(position.coords.longitude);
-            setLog(null);
-          },
-          (err) => {
-            setLog("Não foi possível obter sua localização");
-          }
-        );
-      } else {
-        setLog("Geolocalização não é suportada pelo seu navegador");
-      }
-    };
   
-    getLocation();
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('lat') && urlParams.get('lon') && urlParams.get('timezone')) {
+      setLat(urlParams.get('lat'));
+      setLong(urlParams.get('lon'));
+      setTimezone(urlParams.get('timezone'));
+    }
   }, []);
 
   /**
@@ -64,7 +56,7 @@ export default function Weather() {
 
   const getWeatherMeteo = () => {
     if (lat && long) {
-      axios.get(`https://www.meteosource.com/api/v1/free/point?lat=${lat}&lon=${long}&sections=all&timezone=UTC&language=en&units=metric&key=sv305jhndh1me48ticwgo0br9iwakjiinlqixule`)
+      axios.get(`https://www.meteosource.com/api/v1/free/point?lat=${lat}&lon=${long}&sections=all&timezone=${timezone}&language=en&units=metric&key=sv305jhndh1me48ticwgo0br9iwakjiinlqixule`)
         .then(function (response) {
           setWeatherMeteo(response.data);
         })
@@ -75,7 +67,7 @@ export default function Weather() {
 
   const getHourlyWeather = () => {
     if (lat && long) {
-      axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,rain,snow_depth,snowfall,weather_code,pressure_msl,surface_pressure,visibility,evapotranspiration,vapour_pressure_deficit,wind_speed_10m,wind_direction_10m,temperature_80m,soil_temperature_0cm&timezone=America%2FSao_Paulo`)
+      axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,rain,snow_depth,snowfall,weather_code,pressure_msl,surface_pressure,visibility,evapotranspiration,vapour_pressure_deficit,wind_speed_10m,wind_direction_10m,temperature_80m,soil_temperature_0cm&timezone=${timezone}`)
         .then(function (response) {
           setHourlyWeather(response.data);
         })
@@ -86,7 +78,7 @@ export default function Weather() {
 
   const getDailyWeather = async() => {
     if (lat && long) {
-      await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=sunrise,sunset,relative_humidity_2m_mean,relative_humidity_2m_max,relative_humidity_2m_min,visibility_min,visibility_max,visibility_mean,winddirection_10m_dominant,wind_speed_10m_mean,wind_gusts_10m_mean,wind_gusts_10m_min,weather_code,temperature_2m_min,temperature_2m_max,apparent_temperature_min,apparent_temperature_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,et0_fao_evapotranspiration,sunrise,daylight_duration,sunset,sunshine_duration,uv_index_max,uv_index_clear_sky_max,rain_sum,snowfall_sum,precipitation_sum,precipitation_hours,precipitation_probability_max&timezone=America%2FSao_Paulo`)
+      await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=uv_index_max,uv_index_clear_sky_max,precipitation_hours,rain_sum,sunrise,sunset,relative_humidity_2m_mean,relative_humidity_2m_max,relative_humidity_2m_min,visibility_min,visibility_max,visibility_mean,winddirection_10m_dominant,wind_speed_10m_mean,wind_gusts_10m_mean,wind_gusts_10m_min,weather_code,temperature_2m_min,temperature_2m_max,apparent_temperature_min,apparent_temperature_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,et0_fao_evapotranspiration,sunrise,daylight_duration,sunset,sunshine_duration,uv_index_max,uv_index_clear_sky_max,rain_sum,snowfall_sum,precipitation_sum,precipitation_hours,precipitation_probability_max&timezone=${timezone}`)
         .then(function (response) {
           setDailyWeather(response.data);
         })
@@ -97,7 +89,7 @@ export default function Weather() {
 
   const getCurrentWeather = () => {
     if (lat && long) {
-      axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,wind_speed_10m,wind_gusts_10m,wind_direction_10m,precipitation,rain,snowfall,weather_code,showers,cloud_cover,pressure_msl,surface_pressure&timezone=America%2FSao_Paulo`)
+      axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=is_day,temperature_2m,relative_humidity_2m,apparent_temperature,is_day,wind_speed_10m,wind_gusts_10m,wind_direction_10m,precipitation,rain,snowfall,weather_code,showers,cloud_cover,pressure_msl,surface_pressure&timezone=${timezone}`)
         .then(function (response) {
           setCurrentWeather(response.data);
         })
@@ -106,26 +98,70 @@ export default function Weather() {
     }
   }
 
+  const getAirQualityWeather = () => {
+    if (lat && long) {
+      axios.get(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${long}&current=pm2_5,carbon_monoxide,sulphur_dioxide,us_aqi`)
+        .then(function (response) {
+          setAirQuality(response.data);
+        })
+        .catch(function (error) {
+        });
+    }
+  }
+
+  const getMapWeather = () => {
+    if (lat && long) {
+      axios.get(`https://www.meteosource.com/api/v1/flexi/map?min_lat=${lat}&min_lon=${long}&max_lat=${lat + 50}&max_lon=${lat + 50}&variable=precipitation&datetime=+12hours&key=sv305jhndh1me48ticwgo0br9iwakjiinlqixule`)
+        .then(function (response) {
+          setMapWeather(response.data);
+          console.log(response.data)
+        })
+        .catch(function (error) {
+        });
+    }
+  };
+
   const bg_wather = () => {
     if (dailyWeather && weatherMeteo) {
       let dateNow = new Date();
-      let gif_bg = "";
+      let bg = "min-h-screen gap-16 sm:p-8 bg-cover bg-center"
+      let img_bg = ""
       let weather = weatherMeteo.current.icon_num;
+
       // Códigos para cada tipo de clima
-      const neve = [16, 17, 18, 19, 23, 34];
-      const chuva = [10, 11, 12, 13, 14, 15, 20, 21, 22, 32, 35];
-      const nublado = [4, 5, 6, 7, 8, 9, 28, 29, 30, 31];
-      const isDia = (new Date(dailyWeather.daily.sunset[0]).getHours() <= dateNow.getHours() && new Date(dailyWeather.daily.sunset[0]).getMinutes() <= dateNow.getMinutes()) || (new Date(dailyWeather.daily.sunrise[0]).getHours() > dateNow.getHours() && new Date(dailyWeather.daily.sunset[0]).getMinutes() >= dateNow.getMinutes());
-      if (neve.includes(weather)) {
-        gif_bg = isDia ? `min-h-screen gap-16 sm:p-8 bg-[url('/img/dia-neve.gif')] bg-cover bg-center` : `min-h-screen gap-16 sm:p-8 bg-[url('/img/noite-neve.gif')] bg-cover bg-center`;
-      } else if (chuva.includes(weather)) {
-        gif_bg = isDia ? `min-h-screen gap-16 sm:p-8 bg-[url('/img/dia-chuva.gif')] bg-cover bg-center` : `min-h-screen gap-16 sm:p-8 bg-[url('/img/noite-chuva.gif')] bg-cover bg-center`;
-      } else if (nublado.includes(weather)) {
-        gif_bg = isDia ? `min-h-screen gap-16 sm:p-8 bg-[url('/img/pouco-nublado-dia.gif')] bg-cover bg-center` : `min-h-screen gap-16 sm:p-8 bg-[url('/img/pouco-nublado-noite.gif')] bg-cover bg-center`;
-      } else {
-        gif_bg = isDia ? `min-h-screen gap-16 sm:p-8 bg-[url('/img/dia-verao.gif')] bg-cover bg-center` : `min-h-screen gap-16 sm:p-8 bg-[url('/img/noite-verao.gif')] bg-cover bg-center`;
+      const limpo = [2, 3, 4, 26, 27, 28]
+      const chuva = [10, 11, 12, 13, 14, 15, 32, 33];
+      const neve = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 34, 35, 36];
+      const nublado = [5, 6, 7, 8, 9, 28, 29, 30, 31];
+
+      const isDia = currentWeather && currentWeather.current.is_day;
+
+      isDia == 1 ? img_bg = "dia-" : img_bg = "noite-";
+
+      if (isDia == 1) {
+        if (neve.includes(weather)) {
+          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/dia-neve.gif)] bg-cover bg-center`
+        } else if (chuva.includes(weather)) {
+          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/dia-chuva.gif)] bg-cover bg-center`
+        } else if (nublado.includes(weather)) {
+          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/dia-pouco-nublado.gif)] bg-cover bg-center`
+        } else if (limpo.includes(weather)) {
+          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/dia-limpo.gif)] bg-cover bg-center`
+        }
+      } else if (isDia == 0) {
+        if (neve.includes(weather)) {
+          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/noite-neve.gif)] bg-cover bg-center`
+        } else if (chuva.includes(weather)) {
+          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/noite-chuva.gif)] bg-cover bg-center`
+        } else if (nublado.includes(weather)) {
+          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/noite-pouco-nublado.gif)] bg-cover bg-center`
+        } else if (limpo.includes(weather)) {
+          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/noite-limpo.gif)] bg-cover bg-center`
+        }
       }
-      return gif_bg;
+
+      // bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/${img_bg}.gif)] bg-cover bg-center`
+      return bg
     }
   };
 
@@ -135,6 +171,8 @@ export default function Weather() {
     getWeatherMeteo();
     getHourlyWeather();
     getCurrentWeather();
+    getMapWeather();
+    getAirQualityWeather();
 
   }, [lat, long]);
 
@@ -162,6 +200,17 @@ export default function Weather() {
           "weatherMeteo": weatherMeteo,
           "dailyWeather": dailyWeather,
         }} />
+
+        <div className="flex flex-row gap-8 w-full font-serif">
+          <AirQualityDisplay data={{
+            "airQuality": airQuality,
+          }} />
+          
+          <OthersDisplay data={{
+            "dailyWeather": dailyWeather
+          }} />
+        </div>
+
       </main>
 
       <footer className="w-full flex justify-center items-center row-start-3 text-xs text-gray-500">
