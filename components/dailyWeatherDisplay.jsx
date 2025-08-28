@@ -27,7 +27,7 @@ export function DailyWeatherDisplay ({ data }) {
     const weekDayIndex = (time.weekDay !== "" ? (time.weekDay + i) % 7 : i);
     return (
       <div className="relative flex items-center w-full h-fit" key={i}>
-        <div className={`w-full p-4 py-8 rounded-lg hover:bg-white/15 hover:py-12 hover:shadow-[6px_6px_12px_0_rgba(0,0,0,0.05)] hover:scale-110 duration-150 ease-in-out`}>
+        <div className={`w-full p-4 py-8 rounded-lg hover:bg-white/30 hover:py-12 hover:shadow-[0px_0px_12px_10px_rgba(0,0,0,0.05)] hover:scale-110 duration-150 ease-in-out`}>
           <div className={`day relative flex flex-col gap-2 pb-3`}>
             <h2 className="w-full text-lg text-center">{weekDays.shortNames[weekDayIndex]}</h2>
             <div className="flex justify-center items-center gap-1 w-full">

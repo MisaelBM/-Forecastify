@@ -38,7 +38,6 @@ export function CurrentWeatherDisplay ({ data }) {
               &nbsp;{data.currentLocation.result[0].formatted_address.split(' ')[3] != undefined && data.currentLocation.result[0].formatted_address.split(' ')[3]}
               &nbsp;- {data.currentWeather.timezone == Intl.DateTimeFormat().resolvedOptions().timeZone ? time : `${data.currentWeather.current.time.split('T')[1].split(':')[0]}:${data.currentWeather.current.time.split('T')[1].split(':')[1]}`}
             </h3>
-            {console.log()}
           </div>
         </WeatherCard>
 
