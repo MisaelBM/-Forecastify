@@ -141,13 +141,13 @@ export function Content({ data }) {
         }
       } else if (isDia == 0) {
         if (neve.includes(weather)) {
-          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/noite-neve.gif)] bg-cover bg-center`
+          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/noite-neve.gif)] bg-cover bg-center text-gray-300!`
         } else if (chuva.includes(weather)) {
-          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/noite-chuva.gif)] bg-cover bg-center`
+          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/noite-chuva.gif)] bg-cover bg-center text-gray-300!`
         } else if (nublado.includes(weather)) {
-          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/noite-pouco-nublado.gif)] bg-cover bg-center`
+          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/noite-pouco-nublado.gif)] bg-cover bg-center text-gray-300!`
         } else if (limpo.includes(weather)) {
-          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/noite-limpo.gif)] bg-cover bg-center`
+          bg = `min-h-screen gap-16 sm:p-8 bg-[url(/img/noite-limpo.gif)] bg-cover bg-center text-gray-300!`
         }
       }
 

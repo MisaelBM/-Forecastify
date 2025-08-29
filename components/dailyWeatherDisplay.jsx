@@ -27,8 +27,8 @@ export function DailyWeatherDisplay ({ data }) {
     const weekDayIndex = (time.weekDay !== "" ? (time.weekDay + i) % 7 : i);
     return (
       <div className="relative flex items-center w-full h-fit" key={i}>
-        <div className={`w-full p-4 py-8 rounded-lg hover:bg-white/30 hover:py-12 hover:shadow-[0px_0px_12px_10px_rgba(0,0,0,0.05)] hover:scale-110 duration-150 ease-in-out`}>
-          <div className={`day relative flex flex-col gap-2 pb-3`}>
+        <div className={`cardDaily w-full p-4 py-8 rounded-lg hover:scale-110 duration-250 before:absolute before:rounded-xl before:index-10 before:bg-white/30 before:shadow-[0px_0px_12px_10px_rgba(0,0,0,0.05)] before:left-[50%] before:-translate-x-[50%]`}>
+          <div className={`day relative flex flex-col gap-2 pb-3 index-100`}>
             <h2 className="w-full text-lg text-center">{weekDays.shortNames[weekDayIndex]}</h2>
             <div className="flex justify-center items-center gap-1 w-full">
               <img src={`/img/icons/big/${data.whetherMeteo.daily.data[weekDayIndex].icon}.png`} alt="" className="w-16 h-16" />

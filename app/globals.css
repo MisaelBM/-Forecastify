@@ -55,6 +55,43 @@
     transform: translate(-50%, -50%) scale(0.9);
     }
   }
+  @keyframes cards {
+    0% {
+      width: 0px;
+      height: 0px;
+      transform: translate(0%, 0%);
+      padding: 0px 0px;
+      bottom: 0%;
+    }
+    25% {
+      width: 100%;
+      height: 24px;
+      transform: translate(0%, 0%);
+      padding: 0px 0px;
+      bottom: 0%;
+    }
+    50% {
+      
+      
+      transform: translate(0%, 0%);
+      
+      bottom: 0%;
+    }
+    75% {
+      width: 100%;
+      height: 100%;
+      
+      
+
+    }
+    100% {
+      width: 100%;
+      height: 100%;
+      transform: translate(0%, 50%);
+      padding: 112px 0px;
+      bottom: 50%;
+    }
+  }
 }
 
 :root {
@@ -133,4 +170,8 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.cardDaily:hover::before {
+  animation: cards .15s ease-in-out forwards;
 }
