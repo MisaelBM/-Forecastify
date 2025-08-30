@@ -22,7 +22,7 @@ export function OthersDisplay ({ data }) {
             <div className="flex flex-col items-center gap-4">
               <h2 className="w-full text-lg text-center">Taxa UV máxima em céu limpo</h2>
               <div className="w-full flex gap-4 justify-center items-center">
-                <img src="/img/termometro.png" alt="" className="w-16 h-16" />
+                <img src="/img/uv.png" alt="" className="w-16 h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
                   <span className="text-2xl">
@@ -39,7 +39,7 @@ export function OthersDisplay ({ data }) {
             <div className="flex flex-col items-center gap-4">
               <h2 className="w-full text-lg text-center">Taxa UV máxima</h2>
               <div className="w-full flex gap-4 justify-center items-center">
-                <img src="/img/icons/small/12.png" alt="" className="w-16 h-16" />
+                <img src="/img/uv_max.png" alt="" className="w-16 h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
                   <span className="text-2xl">
@@ -56,7 +56,7 @@ export function OthersDisplay ({ data }) {
             <div className="flex flex-col items-center gap-4">
               <h2 className="w-full text-lg text-center">Horas de chuva</h2>
               <div className="w-full flex gap-4 justify-center items-center">
-                <img src="/img/vento.png" alt="" className="w-16 h-16" />
+                <img src="/img/cloud_time.png" alt="" className="w-16 h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
                   <span className="text-2xl">
@@ -73,7 +73,7 @@ export function OthersDisplay ({ data }) {
             <div className="flex flex-col items-center gap-4">
               <h2 className="w-full text-lg text-center">Quantidade de chuva</h2>
               <div className="w-full flex gap-4 justify-center items-center">
-                <img src="/img/pressao.png" alt="" className="w-16 h-16" />
+                <img src="/img/chuva_q.png" alt="" className="w-16 h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
                   <span className="text-2xl">

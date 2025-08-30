@@ -39,8 +39,7 @@ export function HourlyWeatherDisplay ({ data }) {
   }
   const chartData = []
 
-  const today = new Date();
-  const currentHour = today.getHours();
+  const currentHour = Number(c.current.time.split("T")[1].split(":")[0]);
 
   // Ajusta o array para começar da hora atual
   for (let i = 0; i < 24; i++) {

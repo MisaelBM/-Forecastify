@@ -8,12 +8,18 @@ import { cn } from "@/lib/utils"
 function ScrollArea({
   className,
   children,
+  variant = "default",
   ...props
-}: React.ComponentProps<typeof ScrollAreaPrimitive.Root>) {
+}: React.ComponentProps<typeof ScrollAreaPrimitive.Root> & {
+  variant?: "default" | "thin" | "custom"
+}) {
+  const scrollbarClass = variant === "thin" ? "thin-scrollbar" : 
+                        variant === "custom" ? "custom-scrollbar" : "";
+  
   return (
     <ScrollAreaPrimitive.Root
       data-slot="scroll-area"
-      className={cn("relative", className)}
+      className={cn("relative", scrollbarClass, className)}
       {...props}
     >
       <ScrollAreaPrimitive.Viewport
@@ -22,7 +28,7 @@ function ScrollArea({
       >
         {children}
       </ScrollAreaPrimitive.Viewport>
-      <ScrollBar />
+      <ScrollBar variant={variant} />
       <ScrollAreaPrimitive.Corner />
     </ScrollAreaPrimitive.Root>
   )
@@ -31,8 +37,14 @@ function ScrollArea({
 function ScrollBar({
   className,
   orientation = "vertical",
+  variant = "default",
   ...props
-}: React.ComponentProps<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>) {
+}: React.ComponentProps<typeof ScrollAreaPrimitive.ScrollAreaScrollbar> & {
+  variant?: "default" | "thin" | "custom"
+}) {
+  const isThin = variant === "thin";
+  const isCustom = variant === "custom";
+  
   return (
     <ScrollAreaPrimitive.ScrollAreaScrollbar
       data-slot="scroll-area-scrollbar"
@@ -40,16 +52,23 @@ function ScrollBar({
       className={cn(
         "flex touch-none p-px transition-colors select-none",
         orientation === "vertical" &&
-          "h-full w-2.5 border-l border-l-transparent",
+          `h-full ${isThin ? 'w-1.5' : isCustom ? 'w-2' : 'w-2.5'} border-l border-l-transparent`,
         orientation === "horizontal" &&
-          "h-2.5 flex-col border-t border-t-transparent",
+          `h-2.5 flex-col border-t border-t-transparent`,
         className
       )}
       {...props}
     >
       <ScrollAreaPrimitive.ScrollAreaThumb
         data-slot="scroll-area-thumb"
-        className="bg-border relative flex-1 rounded-full"
+        className={cn(
+          "relative flex-1 transition-all duration-200 ease-in-out",
+          isThin 
+            ? "bg-muted-foreground/60 hover:bg-muted-foreground rounded-sm" 
+            : isCustom
+            ? "bg-border hover:bg-muted-foreground rounded-md"
+            : "bg-border rounded-full"
+        )}
       />
     </ScrollAreaPrimitive.ScrollAreaScrollbar>
   )
