@@ -1,5 +1,6 @@
 "use client"
 import { WeatherCard } from "@/components/weatherCard"
+import { NumberTicker } from "@/components/magicui/number-ticker";
 
 import { TrendingUp } from "lucide-react"
 import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts"
@@ -65,14 +66,47 @@ export function HourlyWeatherDisplay ({ data }) {
               <img src={`/img/icons/big/${w.current.icon_num}.png`} alt="" className="w-32 h-32" />
               
               <div className="flex flex-col items-center dap-4">
-                <span className="text-xl">{(c.current.temperature_2m).toFixed(1)}°C</span>
-                <span className="text-xl">{(c.current.temperature_2m * (9/5) + 32).toFixed(1)}°F</span>
+                <span className="text-xl">
+                  <NumberTicker
+                    value={(data.currentWeather.current.temperature_2m).toFixed(1)}
+                    decimalPlaces={1}
+                  />
+                  °C
+                </span>
+                <span className="text-xl">
+                  <NumberTicker
+                    value={(data.currentWeather.current.temperature_2m * (9/5) + 32).toFixed(1)}
+                    decimalPlaces={1}
+                  />
+                  °F
+                </span>
               </div>
 
               <div className="flex flex-col items-start dap-4">
-                <span className="text-md">Chuva: {d.daily.precipitation_probability_max[0]} %</span>
-                <span className="text-md">Umidade: {c.current.relative_humidity_2m} %</span>
-                <span className="text-md">Vento: {c.current.wind_speed_10m} km/h | {c.current.wind_direction_10m}°</span>
+                <span className="text-md">Chuva:&nbsp;
+                  <NumberTicker
+                    value={d.daily.precipitation_probability_max[0]}
+                    decimalPlaces={1}
+                  />
+                  %
+                </span>
+                <span className="text-md">Umidade:&nbsp;
+                  <NumberTicker
+                    value={c.current.relative_humidity_2m}
+                    decimalPlaces={1}
+                  />
+                  %
+                </span>
+                <span className="text-md">Vento: &nbsp;
+                  <NumberTicker
+                    value={c.current.wind_speed_10m}
+                    decimalPlaces={1}
+                  /> km/h | 
+                  <NumberTicker
+                    value={c.current.wind_direction_10m}
+                    decimalPlaces={1}
+                  />
+                  °</span>
               </div>
             </div>
           </div>

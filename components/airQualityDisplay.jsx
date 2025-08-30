@@ -1,5 +1,6 @@
 import { WeatherCard } from "@/components/weatherCard"
 import { useEffect, useState } from "react";
+import { NumberTicker } from "@/components/magicui/number-ticker";
 
 export function AirQualityDisplay ({ data }) {
 
@@ -23,7 +24,13 @@ export function AirQualityDisplay ({ data }) {
               <img src="/img/co2.png" alt="" className="w-16 h-16" />
 
               <div className="flex flex-col gap-0.5 items-center">
-                <span className="text-2xl">{a.current.carbon_monoxide} μg/m³</span>
+                <span className="text-2xl">
+                  <NumberTicker
+                    value={a.current.carbon_monoxide}
+                    decimalPlaces={1}
+                  />
+                  μg/m³
+                  </span>
               </div>
             </div>
           </div>
@@ -34,7 +41,13 @@ export function AirQualityDisplay ({ data }) {
               <img src="/img/so2.png" alt="" className="w-16 h-16" />
 
               <div className="flex flex-col gap-0.5 items-center">
-                <span className="text-2xl">{a.current.sulphur_dioxide} μg/m³</span>
+                <span className="text-2xl">
+                  <NumberTicker
+                    value={a.current.sulphur_dioxide}
+                    decimalPlaces={1}
+                  />
+                  μg/m³
+                  </span>
               </div>
             </div>
           </div>
@@ -45,7 +58,13 @@ export function AirQualityDisplay ({ data }) {
               <img src="/img/particles.png" alt="" className="w-16 h-16" />
 
               <div className="flex flex-col gap-0.5 items-center">
-                <span className="text-2xl">{a.current.pm2_5} μg/m³</span>
+                <span className="text-2xl">
+                  <NumberTicker
+                    value={a.current.pm2_5}
+                    decimalPlaces={1}
+                  />
+                  μg/m³
+                  </span>
               </div>
             </div>
           </div>
@@ -56,7 +75,13 @@ export function AirQualityDisplay ({ data }) {
               <img src="/img/airQuality.png" alt="" className="w-16 h-16" />
 
               <div className="flex flex-col gap-0.5 items-center">
-                <span className="text-2xl">{a.current.us_aqi} AQI - US</span>
+                <span className="text-2xl">
+                  <NumberTicker
+                    value={a.current.us_aqi}
+                    decimalPlaces={1}
+                  />
+                  AQI - US
+                  </span>
               </div>
             </div>
           </div>

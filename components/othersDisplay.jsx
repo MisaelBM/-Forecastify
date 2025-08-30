@@ -1,5 +1,6 @@
 import { WeatherCard } from "@/components/weatherCard"
 import { useEffect, useState } from "react";
+import { NumberTicker } from "@/components/magicui/number-ticker";
 
 export function OthersDisplay ({ data }) {
 
@@ -24,7 +25,13 @@ export function OthersDisplay ({ data }) {
                 <img src="/img/termometro.png" alt="" className="w-16 h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
-                  <span className="text-2xl">{d.uv_index_clear_sky_max[0]} mW/cm²</span>
+                  <span className="text-2xl">
+                    <NumberTicker
+                      value={d.uv_index_clear_sky_max[0]}
+                      decimalPlaces={1}
+                    />
+                    mW/cm²
+                    </span>
                 </div>
               </div>
             </div>
@@ -35,7 +42,13 @@ export function OthersDisplay ({ data }) {
                 <img src="/img/icons/small/12.png" alt="" className="w-16 h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
-                  <span className="text-2xl">{d.uv_index_max[0]} mW/cm²</span>
+                  <span className="text-2xl">
+                    <NumberTicker
+                      value={d.uv_index_max[0]}
+                      decimalPlaces={1}
+                    />
+                    mW/cm²
+                    </span>
                 </div>
               </div>
             </div>
@@ -46,7 +59,13 @@ export function OthersDisplay ({ data }) {
                 <img src="/img/vento.png" alt="" className="w-16 h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
-                  <span className="text-2xl">{d.precipitation_hours[0]} h</span>
+                  <span className="text-2xl">
+                    <NumberTicker
+                      value={d.precipitation_hours[0]}
+                      decimalPlaces={1}
+                    />
+                    h
+                    </span>
                 </div>
               </div>
             </div>
@@ -57,7 +76,13 @@ export function OthersDisplay ({ data }) {
                 <img src="/img/pressao.png" alt="" className="w-16 h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
-                  <span className="text-2xl">{d.precipitation_sum[0]} mm</span>
+                  <span className="text-2xl">
+                    <NumberTicker
+                      value={d.precipitation_sum[0]}
+                      decimalPlaces={1}
+                    />
+                    mm
+                    </span>
                 </div>
               </div>
             </div>

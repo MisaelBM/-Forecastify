@@ -1,5 +1,6 @@
 import { WeatherCard } from "@/components/weatherCard"
 import { useEffect, useState } from "react";
+import { NumberTicker } from "@/components/magicui/number-ticker";
 
 export function CurrentWeatherDisplay ({ data }) {
 
@@ -18,7 +19,6 @@ export function CurrentWeatherDisplay ({ data }) {
 
     return (
       <div className="flex flex-row gap-8 w-full font-serif">
-        {/* {console.log("data", data.weatherMeteo)} */}
         <WeatherCard className={`w-full`}>
           <div className="flex flex-col items-center gap-8">
             <h2 className="w-full text-xl text-center">{data.weatherMeteo.current.summary}</h2>
@@ -27,8 +27,20 @@ export function CurrentWeatherDisplay ({ data }) {
               <img src={`/img/icons/big/${data.weatherMeteo.current.icon_num}.png`} alt="" className="w-48 h-48" />
               
               <div className="flex flex-col gap-1 items-center dap-4">
-                <span className="text-4xl font-semibold">{(data.currentWeather.current.temperature_2m).toFixed(1)}°C</span>
-                <span className="text-4xl font-semibold">{(data.currentWeather.current.temperature_2m * (9/5) + 32).toFixed(1)}°F</span>
+                <span className="text-4xl font-semibold">
+                  <NumberTicker
+                    value={(data.currentWeather.current.temperature_2m).toFixed(1)}
+                    decimalPlaces={1}
+                  />
+                  °C
+                  </span>
+                <span className="text-4xl font-semibold">
+                  <NumberTicker
+                    value={(data.currentWeather.current.temperature_2m * (9/5) + 32).toFixed(1)}
+                    decimalPlaces={1}
+                  />
+                  °F
+                </span>
               </div>
             </div>
 
@@ -36,6 +48,9 @@ export function CurrentWeatherDisplay ({ data }) {
               {data.currentLocation.result[0].formatted_address.split(' ')[1]}
               &nbsp;{data.currentLocation.result[0].formatted_address.split(' ')[2] != undefined && data.currentLocation.result[0].formatted_address.split(' ')[2]}
               &nbsp;{data.currentLocation.result[0].formatted_address.split(' ')[3] != undefined && data.currentLocation.result[0].formatted_address.split(' ')[3]}
+              &nbsp;{data.currentLocation.result[0].formatted_address.split(' ')[4] != undefined && data.currentLocation.result[0].formatted_address.split(' ')[4]}
+              &nbsp;{data.currentLocation.result[0].formatted_address.split(' ')[5] != undefined && data.currentLocation.result[0].formatted_address.split(' ')[5]}
+              &nbsp;{data.currentLocation.result[0].formatted_address.split(' ')[6] != undefined && data.currentLocation.result[0].formatted_address.split(' ')[6]}
               &nbsp;- {data.currentWeather.timezone == Intl.DateTimeFormat().resolvedOptions().timeZone ? time : `${data.currentWeather.current.time.split('T')[1].split(':')[0]}:${data.currentWeather.current.time.split('T')[1].split(':')[1]}`}
             </h3>
           </div>
@@ -49,8 +64,20 @@ export function CurrentWeatherDisplay ({ data }) {
                 <img src="/img/termometro.png" alt="" className="w-16 h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
-                  <span className="text-2xl">{data.currentWeather.current.apparent_temperature} C°</span>
-                  <span className="text-2xl">{(data.currentWeather.current.apparent_temperature * (9/5) + 32).toFixed(1)} F°</span>
+                  <span className="text-2xl">
+                    <NumberTicker
+                      value={(data.currentWeather.current.apparent_temperature).toFixed(1)}
+                      decimalPlaces={1}
+                    />
+                    C°
+                    </span>
+                  <span className="text-2xl">
+                    <NumberTicker
+                      value={(data.currentWeather.current.apparent_temperature * (9/5) + 32).toFixed(1)}
+                      decimalPlaces={1}
+                    />
+                    F°
+                    </span>
                 </div>
               </div>
             </div>
@@ -61,7 +88,13 @@ export function CurrentWeatherDisplay ({ data }) {
                 <img src="/img/icons/small/12.png" alt="" className="w-16 h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
-                  <span className="text-2xl">{data.dailyWeather.daily.precipitation_probability_max[0]} %</span>
+                  <span className="text-2xl">
+                    <NumberTicker
+                      value={data.dailyWeather.daily.precipitation_probability_max[0]}
+                      decimalPlaces={1}
+                    />
+                    %
+                  </span>
                 </div>
               </div>
             </div>
@@ -72,7 +105,13 @@ export function CurrentWeatherDisplay ({ data }) {
                 <img src="/img/vento.png" alt="" className="w-16 h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
-                  <span className="text-2xl">{data.currentWeather.current.wind_speed_10m} km/h</span>
+                  <span className="text-2xl">
+                    <NumberTicker
+                      value={data.currentWeather.current.wind_speed_10m}
+                      decimalPlaces={1}
+                    />
+                    km/h
+                    </span>
                 </div>
               </div>
             </div>
@@ -83,7 +122,13 @@ export function CurrentWeatherDisplay ({ data }) {
                 <img src="/img/pressao.png" alt="" className="w-16 h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
-                  <span className="text-2xl">{data.currentWeather.current.surface_pressure} hPa</span>
+                  <span className="text-2xl">
+                    <NumberTicker
+                      value={data.currentWeather.current.surface_pressure}
+                      decimalPlaces={1}
+                    />
+                    hPa
+                    </span>
                 </div>
               </div>
             </div>
