@@ -331,7 +331,7 @@ export function Content({ data }) {
                   <div className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-500/20 to-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2 font-['Love_Ya_Like_A_Sister']">
-                  Misael Bonifácel
+                  Misael Bonifácio
                 </h3>
                 <p className="text-orange-300 font-medium">Desenvolvedor</p>
                 <div className="mt-4 pt-4 border-t border-white/20">
