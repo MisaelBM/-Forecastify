@@ -47,6 +47,7 @@ export default function SearchBox ({ className }) {
             .then(r => r.ok ? r.json() : Promise.reject(new Error("Failed to fetch")))
             .then(data => {
                 const results = Array.isArray(data?.results) ? data.results : [];
+                console.log(results);
                 setSuggestions(results);
                 setIsOpen(results.length > 0);
                 setHighlightIndex(-1);
