@@ -195,7 +195,7 @@ export function Content({ data }) {
   }
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       {(!currentLocation || !weatherMeteo || !hourlyWeather || !dailyWeather || !currentWeather || !airQuality) && <Loading />}
       <div className={bg_wather() + " relative"}>
         <main className="">
