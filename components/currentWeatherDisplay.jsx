@@ -18,23 +18,23 @@ export function CurrentWeatherDisplay ({ data }) {
     }, [time])
 
     return (
-      <div className="flex flex-row gap-8 w-full font-serif">
-        <WeatherCard className={`w-full`}>
-          <div className="flex flex-col items-center gap-8">
+  <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 w-full font-serif">
+  <WeatherCard className="w-full">
+          <div className="flex flex-col items-center gap-4 sm:gap-8">
             <h2 className="w-full text-xl text-center">{data.weatherMeteo.current.summary}</h2>
             
-            <div className="flex flex-row items-center gap-8">
-              <img src={`/img/icons/big/${data.weatherMeteo.current.icon_num}.png`} alt="" className="w-48 h-48" />
+            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
+              <img src={`/img/icons/big/${data.weatherMeteo.current.icon_num}.png`} alt="" className="w-32 h-32 sm:w-48 sm:h-48" />
               
               <div className="flex flex-col gap-1 items-center dap-4">
-                <span className="text-4xl font-semibold">
+                <span className="text-2xl sm:text-4xl font-semibold">
                   <NumberTicker
                     value={(data.currentWeather.current.temperature_2m).toFixed(1)}
                     decimalPlaces={1}
                   />
                   °C
                   </span>
-                <span className="text-4xl font-semibold">
+                <span className="text-2xl sm:text-4xl font-semibold">
                   <NumberTicker
                     value={(data.currentWeather.current.temperature_2m * (9/5) + 32).toFixed(1)}
                     decimalPlaces={1}
@@ -44,7 +44,7 @@ export function CurrentWeatherDisplay ({ data }) {
               </div>
             </div>
 
-            <h3 className="w-full text-lg text-center capitalize">
+            <h3 className="w-full text-base sm:text-lg text-center capitalize">
               {data.currentLocation.result[0].formatted_address.split(' ')[1]}
               &nbsp;{data.currentLocation.result[0].formatted_address.split(' ')[2] != undefined && data.currentLocation.result[0].formatted_address.split(' ')[2]}
               &nbsp;{data.currentLocation.result[0].formatted_address.split(' ')[3] != undefined && data.currentLocation.result[0].formatted_address.split(' ')[3]}
@@ -56,22 +56,22 @@ export function CurrentWeatherDisplay ({ data }) {
           </div>
         </WeatherCard>
 
-        <WeatherCard className={`w-full`}>
-          <div className="grid grid-cols-2 items-center justify-center gap-4 h-full">
-            <div className="flex flex-col items-center gap-4">
+  <WeatherCard className="w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full">
+            <div className="flex flex-col items-center gap-2 sm:gap-4">
               <h2 className="w-full text-lg text-center">Sensassão térmica</h2>
-              <div className="w-full flex gap-4 justify-center items-center">
-                <img src="/img/termometro.png" alt="" className="w-16 h-16" />
+              <div className="w-full flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center items-center">
+                <img src="/img/termometro.png" alt="" className="w-12 h-12 sm:w-16 sm:h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
-                  <span className="text-2xl">
+                  <span className="text-lg sm:text-2xl">
                     <NumberTicker
                       value={(data.currentWeather.current.apparent_temperature).toFixed(1)}
                       decimalPlaces={1}
                     />
                     C°
                     </span>
-                  <span className="text-2xl">
+                  <span className="text-lg sm:text-2xl">
                     <NumberTicker
                       value={(data.currentWeather.current.apparent_temperature * (9/5) + 32).toFixed(1)}
                       decimalPlaces={1}
@@ -82,13 +82,13 @@ export function CurrentWeatherDisplay ({ data }) {
               </div>
             </div>
 
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center gap-2 sm:gap-4">
               <h2 className="w-full text-lg text-center">Probabilidade de chuva</h2>
-              <div className="w-full flex gap-4 justify-center items-center">
-                <img src="/img/icons/small/12.png" alt="" className="w-16 h-16" />
+              <div className="w-full flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center items-center">
+                <img src="/img/icons/small/12.png" alt="" className="w-12 h-12 sm:w-16 sm:h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
-                  <span className="text-2xl">
+                  <span className="text-lg sm:text-2xl">
                     <NumberTicker
                       value={data.dailyWeather.daily.precipitation_probability_max[0]}
                       decimalPlaces={1}
@@ -99,13 +99,13 @@ export function CurrentWeatherDisplay ({ data }) {
               </div>
             </div>
 
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center gap-2 sm:gap-4">
               <h2 className="w-full text-lg text-center">Velocidade do vento</h2>
-              <div className="w-full flex gap-4 justify-center items-center">
-                <img src="/img/vento.png" alt="" className="w-16 h-16" />
+              <div className="w-full flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center items-center">
+                <img src="/img/vento.png" alt="" className="w-12 h-12 sm:w-16 sm:h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
-                  <span className="text-2xl">
+                  <span className="text-lg sm:text-2xl">
                     <NumberTicker
                       value={data.currentWeather.current.wind_speed_10m}
                       decimalPlaces={1}
@@ -116,13 +116,13 @@ export function CurrentWeatherDisplay ({ data }) {
               </div>
             </div>
 
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center gap-2 sm:gap-4">
               <h2 className="w-full text-lg text-center">Pressão atmosférica</h2>
-              <div className="w-full flex gap-4 justify-center items-center">
-                <img src="/img/pressao.png" alt="" className="w-16 h-16" />
+              <div className="w-full flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center items-center">
+                <img src="/img/pressao.png" alt="" className="w-12 h-12 sm:w-16 sm:h-16" />
 
                 <div className="flex flex-col gap-0.5 items-center">
-                  <span className="text-2xl">
+                  <span className="text-lg sm:text-2xl">
                     <NumberTicker
                       value={data.currentWeather.current.surface_pressure}
                       decimalPlaces={1}

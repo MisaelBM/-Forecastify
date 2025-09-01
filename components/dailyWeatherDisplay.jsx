@@ -61,8 +61,8 @@ export function DailyWeatherDisplay ({ data }) {
   });
 
   return (
-    <WeatherCard title="Previsão Diária" className={`w-full max-h-[208px] p-4!`}>
-      <div className="grid grid-cols-7 grid-rows-1 gap-4 items-center max-h-[176px]">
+    <WeatherCard title="Previsão Diária" className="w-full p-2 sm:p-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-4 items-center">
         {days}
       </div>
     </WeatherCard>

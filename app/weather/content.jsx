@@ -195,162 +195,155 @@ export function Content({ data }) {
   }
 
   return (
-    <div className="overflow-x-hidden">
-      {(!currentLocation || !weatherMeteo || !hourlyWeather || !dailyWeather || !currentWeather || !airQuality) && <Loading />}
-      <div className={bg_wather() + " relative"}>
-        <main className="">
-          <div className="flex flex-col items-center gap-[32px] row-start-2 items-center sm:items-start w-full min-h-screen max-w-screen">
-            <div className="w-full px-8 pt-8">
-              <SearchBox className="font-(family-name:--font-love)"/>
-            </div>
-            <CurrentWeatherDisplay data={{
-              "weatherMeteo": weatherMeteo,
-              "currentLocation": currentLocation,
-              "currentWeather": currentWeather,
-              "dailyWeather": dailyWeather,
-            }} />
-            <DailyWeatherDisplay data={{
-              "whetherMeteo": weatherMeteo,
-              "dailyWeather": dailyWeather,
-            }} />
-            <HourlyWeatherDisplay data={{
-              "hourly": hourlyWeather,
-              "currentWeather": currentWeather,
-              "weatherMeteo": weatherMeteo,
-              "dailyWeather": dailyWeather,
-            }} />
-            <div className="flex flex-row gap-8 w-full font-serif">
-              <AirQualityDisplay data={{
-                "airQuality": airQuality,
+      <div className="overflow-x-hidden w-full min-h-screen">
+        {(!currentLocation || !weatherMeteo || !hourlyWeather || !dailyWeather || !currentWeather || !airQuality) && <Loading />}
+        <div className={bg_wather() + " relative w-full min-h-screen"}>
+          <main className="w-full">
+            <div className="flex flex-col items-center gap-8 sm:gap-12 px-4 sm:px-8 w-full min-h-screen max-w-screen">
+              <div className="w-full px-2 sm:px-8 pt-8">
+                <SearchBox className="font-(family-name:--font-love)"/>
+              </div>
+              <CurrentWeatherDisplay data={{
+                "weatherMeteo": weatherMeteo,
+                "currentLocation": currentLocation,
+                "currentWeather": currentWeather,
+                "dailyWeather": dailyWeather,
               }} />
-        
-              <OthersDisplay data={{
-                "dailyWeather": dailyWeather
+              <DailyWeatherDisplay data={{
+                "whetherMeteo": weatherMeteo,
+                "dailyWeather": dailyWeather,
               }} />
+              <HourlyWeatherDisplay data={{
+                "hourly": hourlyWeather,
+                "currentWeather": currentWeather,
+                "weatherMeteo": weatherMeteo,
+                "dailyWeather": dailyWeather,
+              }} />
+              <div className="flex flex-col md:flex-row gap-8 w-full font-serif">
+                <AirQualityDisplay data={{
+                  "airQuality": airQuality,
+                }} />
+                <OthersDisplay data={{
+                  "dailyWeather": dailyWeather
+                }} />
+              </div>
             </div>
-          </div>
-        </main>
-        <footer className="w-full flex justify-center items-center row-start-3 text-xs text-gray-500">
-          Powered by Open-Meteo • Forecastfy
-        </footer>
-        <div className="absolute bottom-0 left-0 flex justify-center w-screen h-[70px] bottom-0 bg-[url(/img/cloud5.png)]"></div>
-      </div>
-      <div className="w-full bg-gradient-to-b from-gray-900 to-gray-800">
-        <div className="flex justify-center w-screen h-[70px] bottom-0 bg-[url(/img/cloud5.png)] rotate-180"></div>
-        
-        {/* Seção de Equipe */}
-        <div className="max-w-7xl mx-auto px-8 py-24">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4 font-['Love_Ya_Like_A_Sister']">
-              Nossa Equipe
-            </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Conheça os desenvolvedores e designers por trás do Forecastfy
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Hugo */}
-            <div className="group">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center transition-all duration-300 hover:bg-white/20 hover:scale-105 hover:shadow-2xl border border-white/20">
-                <div className="relative mb-6">
-                  <img 
-                    src="/img/hugo.jpeg" 
-                    alt="Hugo Otávio" 
-                    className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-white/30 shadow-lg transition-transform duration-300 group-hover:scale-110" 
-                  />
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </main>
+          <footer className="w-full flex justify-center items-center text-xs text-gray-500 py-4">
+            Powered by Open-Meteo • Forecastfy
+          </footer>
+          <div className="absolute bottom-0 left-0 flex justify-center w-screen h-[70px] bg-[url(/img/cloud5.png)]"></div>
+        </div>
+        <div className="w-full bg-gradient-to-b from-gray-900 to-gray-800">
+          <div className="flex justify-center w-screen h-[70px] bg-[url(/img/cloud5.png)] rotate-180"></div>
+          {/* Seção de Equipe */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-24">
+            <div className="text-center mb-8 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 font-['Love_Ya_Like_A_Sister']">
+                Nossa Equipe
+              </h2>
+              <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
+                Conheça os desenvolvedores e designers por trás do Forecastfy
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+              {/* Hugo */}
+              <div className="group flex flex-col items-center">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 text-center transition-all duration-300 hover:bg-white/20 hover:scale-105 hover:shadow-2xl border border-white/20 w-full">
+                  <div className="relative mb-4 sm:mb-6 flex justify-center">
+                    <img 
+                      src="/img/hugo.jpeg" 
+                      alt="Hugo Otávio" 
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-white/30 shadow-lg transition-transform duration-300 group-hover:scale-110" 
+                    />
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2 font-['Love_Ya_Like_A_Sister']">
+                    Hugo Otávio
+                  </h3>
+                  <p className="text-blue-300 font-medium">Desenvolvedor</p>
+                  <div className="mt-2 sm:mt-4 pt-2 sm:pt-4 border-t border-white/20">
+                    <p className="text-xs sm:text-sm text-gray-300">
+                      Full-stack developer apaixonado por criar experiências únicas
+                    </p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2 font-['Love_Ya_Like_A_Sister']">
-                  Hugo Otávio
-                </h3>
-                <p className="text-blue-300 font-medium">Desenvolvedor</p>
-                <div className="mt-4 pt-4 border-t border-white/20">
-                  <p className="text-sm text-gray-300">
-                    Full-stack developer apaixonado por criar experiências únicas
-                  </p>
+              </div>
+              {/* Julio */}
+              <div className="group flex flex-col items-center">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 text-center transition-all duration-300 hover:bg-white/20 hover:scale-105 hover:shadow-2xl border border-white/20 w-full">
+                  <div className="relative mb-4 sm:mb-6 flex justify-center">
+                    <img 
+                      src="/img/julio.jpeg" 
+                      alt="Julio César" 
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-white/30 shadow-lg transition-transform duration-300 group-hover:scale-110" 
+                    />
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2 font-['Love_Ya_Like_A_Sister']">
+                    Julio César
+                  </h3>
+                  <p className="text-green-300 font-medium">Desenvolvedor</p>
+                  <div className="mt-2 sm:mt-4 pt-2 sm:pt-4 border-t border-white/20">
+                    <p className="text-xs sm:text-sm text-gray-300">
+                      Especialista em APIs e integrações de dados meteorológicos
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {/* Samuel */}
+              <div className="group flex flex-col items-center">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 text-center transition-all duration-300 hover:bg-white/20 hover:scale-105 hover:shadow-2xl border border-white/20 w-full">
+                  <div className="relative mb-4 sm:mb-6 flex justify-center">
+                    <img 
+                      src="/img/samuel.jpeg" 
+                      alt="Samuel Zanini" 
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-white/30 shadow-lg transition-transform duration-300 group-hover:scale-110" 
+                    />
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2 font-['Love_Ya_Like_A_Sister']">
+                    Samuel Zanini
+                  </h3>
+                  <p className="text-purple-300 font-medium">Design</p>
+                  <div className="mt-2 sm:mt-4 pt-2 sm:pt-4 border-t border-white/20">
+                    <p className="text-xs sm:text-sm text-gray-300">
+                      Criativo visual focado em UX/UI e experiências imersivas
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {/* Misael */}
+              <div className="group flex flex-col items-center">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 text-center transition-all duration-300 hover:bg-white/20 hover:scale-105 hover:shadow-2xl border border-white/20 w-full">
+                  <div className="relative mb-4 sm:mb-6 flex justify-center">
+                    <img 
+                      src="/img/misael.jpeg" 
+                      alt="Misael Bonifácel" 
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-white/30 shadow-lg transition-transform duration-300 group-hover:scale-110" 
+                    />
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-500/20 to-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2 font-['Love_Ya_Like_A_Sister']">
+                    Misael Bonifácio
+                  </h3>
+                  <p className="text-orange-300 font-medium">Desenvolvedor</p>
+                  <div className="mt-2 sm:mt-4 pt-2 sm:pt-4 border-t border-white/20">
+                    <p className="text-xs sm:text-sm text-gray-300">
+                      Desenvolvedor front-end com foco em performance e acessibilidade
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-
-            {/* Julio */}
-            <div className="group">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center transition-all duration-300 hover:bg-white/20 hover:scale-105 hover:shadow-2xl border border-white/20">
-                <div className="relative mb-6">
-                  <img 
-                    src="/img/julio.jpeg" 
-                    alt="Julio César" 
-                    className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-white/30 shadow-lg transition-transform duration-300 group-hover:scale-110" 
-                  />
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2 font-['Love_Ya_Like_A_Sister']">
-                  Julio César
-                </h3>
-                <p className="text-green-300 font-medium">Desenvolvedor</p>
-                <div className="mt-4 pt-4 border-t border-white/20">
-                  <p className="text-sm text-gray-300">
-                    Especialista em APIs e integrações de dados meteorológicos
-                  </p>
-                </div>
-              </div>
+            {/* Footer da seção */}
+            <div className="text-center mt-8 sm:mt-16 pt-8 border-t border-white/20">
+              <p className="text-gray-400 text-xs sm:text-sm">
+                Juntos criamos uma experiência meteorológica única e intuitiva
+              </p>
             </div>
-
-            {/* Samuel */}
-            <div className="group">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center transition-all duration-300 hover:bg-white/20 hover:scale-105 hover:shadow-2xl border border-white/20">
-                <div className="relative mb-6">
-                  <img 
-                    src="/img/samuel.jpeg" 
-                    alt="Samuel Zanini" 
-                    className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-white/30 shadow-lg transition-transform duration-300 group-hover:scale-110" 
-                  />
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2 font-['Love_Ya_Like_A_Sister']">
-                  Samuel Zanini
-                </h3>
-                <p className="text-purple-300 font-medium">Design</p>
-                <div className="mt-4 pt-4 border-t border-white/20">
-                  <p className="text-sm text-gray-300">
-                    Criativo visual focado em UX/UI e experiências imersivas
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Misael */}
-            <div className="group">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center transition-all duration-300 hover:bg-white/20 hover:scale-105 hover:shadow-2xl border border-white/20">
-                <div className="relative mb-6">
-                  <img 
-                    src="/img/misael.jpeg" 
-                    alt="Misael Bonifácel" 
-                    className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-white/30 shadow-lg transition-transform duration-300 group-hover:scale-110" 
-                  />
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-500/20 to-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2 font-['Love_Ya_Like_A_Sister']">
-                  Misael Bonifácio
-                </h3>
-                <p className="text-orange-300 font-medium">Desenvolvedor</p>
-                <div className="mt-4 pt-4 border-t border-white/20">
-                  <p className="text-sm text-gray-300">
-                    Desenvolvedor front-end com foco em performance e acessibilidade
-                  </p>
-                </div>
-              </div>
-          </div>
-          </div>
-
-          {/* Footer da seção */}
-          <div className="text-center mt-16 pt-8 border-t border-white/20">
-            <p className="text-gray-400 text-sm">
-              Juntos criamos uma experiência meteorológica única e intuitiva
-            </p>
           </div>
         </div>
       </div>
-    </div>
   );
 }

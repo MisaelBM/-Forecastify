@@ -54,63 +54,59 @@ export function HourlyWeatherDisplay ({ data }) {
   return (
     <WeatherCard className="w-full">
       <Card className="bg-white/15 border-none">
-        <CardHeader className="relative flex gap-4 justify-between">
-          <div className="">
-            <CardTitle>Temperatura e Sensação Térmica</CardTitle>
-            <CardDescription>Próximas 24 horas</CardDescription>
+        <CardHeader className="relative flex flex-col lg:flex-row gap-4 lg:gap-8 justify-between items-center">
+          <div className="w-full lg:w-auto flex flex-col gap-2">
+            <CardTitle className="text-base sm:text-lg">Temperatura e Sensação Térmica</CardTitle>
+            <CardDescription className="text-sm sm:text-base">Próximas 24 horas</CardDescription>
           </div>
 
-          <div>
-            <div className="flex flex-row items-center gap-8">
-              <img src={`/img/icons/big/${w.current.icon_num}.png`} alt="" className="w-32 h-32" />
-              
-              <div className="flex flex-col items-center dap-4">
-                <span className="text-xl">
-                  <NumberTicker
-                    value={(data.currentWeather.current.temperature_2m).toFixed(1)}
-                    decimalPlaces={1}
-                  />
-                  °C
-                </span>
-                <span className="text-xl">
-                  <NumberTicker
-                    value={(data.currentWeather.current.temperature_2m * (9/5) + 32).toFixed(1)}
-                    decimalPlaces={1}
-                  />
-                  °F
-                </span>
-              </div>
-
-              <div className="flex flex-col items-start dap-4">
-                <span className="text-md">Chuva:&nbsp;
-                  <NumberTicker
-                    value={d.daily.precipitation_probability_max[0]}
-                    decimalPlaces={1}
-                  />
-                  %
-                </span>
-                <span className="text-md">Umidade:&nbsp;
-                  <NumberTicker
-                    value={c.current.relative_humidity_2m}
-                    decimalPlaces={1}
-                  />
-                  %
-                </span>
-                <span className="text-md">Vento: &nbsp;
-                  <NumberTicker
-                    value={c.current.wind_speed_10m}
-                    decimalPlaces={1}
-                  /> km/h | 
-                  <NumberTicker
-                    value={c.current.wind_direction_10m}
-                    decimalPlaces={1}
-                  />
-                  °</span>
-              </div>
+          <div className="w-full lg:w-auto flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
+            <img src={`/img/icons/big/${w.current.icon_num}.png`} alt="" className="w-20 h-20 sm:w-32 sm:h-32" />
+            <div className="flex flex-col items-center dap-4">
+              <span className="text-lg sm:text-xl">
+                <NumberTicker
+                  value={(data.currentWeather.current.temperature_2m).toFixed(1)}
+                  decimalPlaces={1}
+                />
+                °C
+              </span>
+              <span className="text-lg sm:text-xl">
+                <NumberTicker
+                  value={(data.currentWeather.current.temperature_2m * (9/5) + 32).toFixed(1)}
+                  decimalPlaces={1}
+                />
+                °F
+              </span>
+            </div>
+            <div className="flex flex-col items-start dap-4">
+              <span className="text-sm sm:text-md">Chuva:&nbsp;
+                <NumberTicker
+                  value={d.daily.precipitation_probability_max[0]}
+                  decimalPlaces={1}
+                />
+                %
+              </span>
+              <span className="text-sm sm:text-md">Umidade:&nbsp;
+                <NumberTicker
+                  value={c.current.relative_humidity_2m}
+                  decimalPlaces={1}
+                />
+                %
+              </span>
+              <span className="text-sm sm:text-md">Vento: &nbsp;
+                <NumberTicker
+                  value={c.current.wind_speed_10m}
+                  decimalPlaces={1}
+                /> km/h | 
+                <NumberTicker
+                  value={c.current.wind_direction_10m}
+                  decimalPlaces={1}
+                />
+                °</span>
             </div>
           </div>
 
-          <div className="opacity-0">
+          <div className="opacity-0 hidden lg:block">
             <CardTitle>Temperatura e Sensação Térmica</CardTitle>
             <CardDescription>Próximas 24 horas</CardDescription>
           </div>

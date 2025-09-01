@@ -123,10 +123,10 @@ export default function SearchBox ({ className }) {
 
     return (
         <>
-            <div ref={containerRef} className={`m-auto w-full h-fit flex flex-row justify-between items-center gap-[20px] relative ${className}`}>
-                <div className="bg-white w-full h-fit flex flex-row gap-[5px] p-[5px] px-[20px] rounded-full">
+            <div ref={containerRef} className={`m-auto w-full h-fit flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-[20px] relative ${className}`}>
+                <div className="bg-white w-full h-fit flex flex-row items-center gap-0 p-2 sm:p-[5px] px-4 sm:px-[20px] rounded-full relative">
                     <Input
-                        className="w-full p-0 border-0 font-bold text-black text-2xl"
+                        className="w-full p-0 border-0 font-bold text-black text-lg sm:text-2xl max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl pr-10"
                         id="search"
                         placeholder="Search a location"
                         value={query}
@@ -135,13 +135,12 @@ export default function SearchBox ({ className }) {
                         onFocus={() => setIsOpen(suggestions.length > 0)}
                         autoComplete="off"
                     />
-
-                    <label htmlFor="search">
-                        <Search size={35} />
+                    <label htmlFor="search" className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer">
+                        <Search size={24} className="text-gray-500" />
                     </label>
                 </div>
 
-                <Button onClick={useMyLocation} className="w-fit h-[100%] text-xl bg-white text-black font-bold rounded-full cursor-pointer hover:bg-gray-200">Use my current location <MapPin size={104} /></Button>
+                <Button onClick={useMyLocation} className="w-fit min-w-[120px] h-[40px] text-base bg-white text-black font-bold rounded-full cursor-pointer hover:bg-gray-200 px-4 py-2 flex items-center justify-center gap-2">Use my current location <MapPin size={24} /></Button>
 
                 {isOpen && suggestions.length > 0 && (
                     <div className="absolute top-[calc(100%+8px)] left-0 right-0 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden z-50 max-h-80 overflow-y-auto">
